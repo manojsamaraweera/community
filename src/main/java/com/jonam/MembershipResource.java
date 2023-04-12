@@ -1,33 +1,44 @@
 package com.jonam;
 
 import com.jonam.model.Community;
+import com.jonam.proxy.UserProxy;
 import com.jonam.repository.CommunityRepository;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import org.bson.types.ObjectId;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-@Path("/communities")
-public class CommunityResource {
+@Path("/communities/{communityId}/members")
+public class MembershipResource {
     @Inject
     CommunityRepository repository;
 
-    @GET
-    @Path("/{id}")
-    @RolesAllowed("user")
-    public Response get(@PathParam("id") String id) {
-        Community community = repository.findById(new ObjectId(id));
-        return Response.ok(community).build();
-    }
+    @RestClient
+    UserProxy userProxy;
 
     @GET
     @RolesAllowed("user")
-    public Response get() {
-        return Response.ok(repository.listAll()).build();
+    public Response getMembers(@PathParam("communityId") String communityId) {
+        return Response.ok(repository.findById(new ObjectId(communityId)).getMembers()).build();
+    }
+
+    @GET
+    @Path("/admins")
+    @RolesAllowed("user")
+    public Response getAdminUsers(@PathParam("communityId") String communityId) {
+        return Response.ok(repository.findById(new ObjectId(communityId)).getAdminUsers()).build();
+    }
+
+    @GET
+    @Path("/admins/creator")
+    @RolesAllowed("user")
+    public Response getCreatorUsers(@PathParam("communityId") String communityId) {
+        return Response.ok(repository.findById(new ObjectId(communityId)).getCreatedByUser()).build();
     }
 
     @GET

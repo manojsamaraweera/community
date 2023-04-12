@@ -2,7 +2,7 @@ package com.jonam.repository;
 
 import java.util.List;
 
-import com.jonam.community.Community;
+import com.jonam.model.Community;
 
 import io.quarkus.mongodb.panache.PanacheMongoRepository;
 import io.quarkus.panache.common.Sort;
