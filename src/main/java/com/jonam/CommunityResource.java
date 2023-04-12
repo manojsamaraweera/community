@@ -39,7 +39,7 @@ public class CommunityResource {
     }
 
     @POST
-    @RolesAllowed("usr")
+    @RolesAllowed("user")
     public Response create(Community community) throws URISyntaxException {
         repository.persist(community);
         return Response.created(new URI("/" + community.id)).build();
