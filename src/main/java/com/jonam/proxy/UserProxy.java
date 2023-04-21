@@ -1,6 +1,6 @@
 package com.jonam.proxy;
 
-import com.jonam.model.CommunityUser;
+import com.jonam.model.ProxyUser;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -14,5 +14,5 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 public interface UserProxy {
     @GET
     @Path("/{userId}")
-    CommunityUser get(@PathParam("name") String name);
+    ProxyUser get(@PathParam("name") String name);
 }
